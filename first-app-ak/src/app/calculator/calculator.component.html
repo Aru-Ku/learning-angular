@@ -1,0 +1,26 @@
+<hr>
+<h3>calculator</h3>
+
+<input type="number" #a (input)="setN1(a.value)">
+<input type="number" #b (input)="setN2(b.value)">
+<br>
+<input type="button" value="Add" (click)="add()">
+<input type="button" value="Subtract" (click)="subtract()">
+<input type="button" value="Multiply" (click)="multiply()">
+<input type="button" value="Divide" (click)="divide()">
+
+<!-- <p [ngClass]="{ positive: answer>=0, negative: answer<0 }">{{answer | currency:'INR' }}</p> -->
+
+
+<!-- <ng-template *ngIf="answer >= 0 ; then pos else neg"></ng-template>
+<ng-template #pos><div class="positive">{{answer | currency:'INR' }}</div></ng-template>
+<ng-template #neg><div class="negative">{{answer | currency:'INR' }}</div></ng-template> -->
+
+<ng-template *ngIf="answer >= 0 ; then pos else neg"></ng-template>
+<ng-template #pos>
+    <div class="positive">{{answer | currency:'INR' }}</div>
+    <!-- <div class="positive">{{answer}}</div> -->
+</ng-template>
+<ng-template #neg>
+    <div class="negative">{{answer | currency:'INR' }}</div>
+</ng-template>

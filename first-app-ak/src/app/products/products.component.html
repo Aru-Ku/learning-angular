@@ -1,0 +1,19 @@
+<hr>
+<h3>Products</h3>
+
+<label for="">Add Product : </label>
+<input type="text" #newProduct>
+<input type="button" value="Add" (click)="addProduct(newProduct.value)">
+
+<ul>
+    <ng-container *ngFor="let product of products; trackBy trackByProductName">
+        <li>
+            <span>{{product}}</span>
+            <input type="button" value="Remove" (click)="removeProduct(product)">
+        </li>
+    </ng-container>
+    <!-- <li *ngFor="let product of products; index as i" [id]="i">{{product}}</li> -->
+    <!-- <ng-template ngFor let-product [ngForOf]="products">
+        <li [id]="product.length">{{product}}</li>
+    </ng-template> -->
+</ul>

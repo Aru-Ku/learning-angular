@@ -1,0 +1,14 @@
+<h1>Hello</h1>
+
+<input type="button" value="Products" (click)="component = 'product'">
+<input type="button" value="Greeter" (click)="component = 'greeter'">
+<input type="button" value="Calculator" (click)="component = 'calculator'">
+<input type="button" value="Salary Calculator" (click)="component = 'salary'">
+
+<ng-container [ngSwitch]="component">
+    <app-greeter *ngSwitchCase="'greeter'"></app-greeter>
+    <app-calculator *ngSwitchCase="'calculator'"></app-calculator>
+    <app-salary-calculator *ngSwitchCase="'salary'"></app-salary-calculator>
+    <app-products *ngSwitchCase="'product'"></app-products>
+    <div *ngSwitchDefault>Choose a button</div>
+</ng-container>

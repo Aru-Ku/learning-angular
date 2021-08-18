@@ -1,0 +1,35 @@
+<hr>
+<h3>Salary Calulator</h3>
+
+<div>
+    <label for="">Basic : </label>
+    <input type="number" (input)="modal.setValue('basic', +$any($event.target).value)">
+</div>
+<div>
+    <label for="">HRA : </label>
+    <input type="number" (input)="modal.setValue('hra', +$any($event.target).value)">
+</div>
+<div>
+    <label for="">DA : </label>
+    <input type="number" (input)="modal.setValue('da', +$any($event.target).value)">
+</div>
+<div>
+    <label for="">Tax : </label>
+    <input type="range" id="rangeTax" min="0" max="30" value="0"  (input)="modal.setValue('tax', +$any($event.target).value)">
+</div>
+<div>
+    <input type="button" value="Calculate" (click)="modal.calculate()">
+</div>
+<div class="field">
+    <table>
+        <tbody>
+            <tr>
+                <td>{{modal.basic}}</td>
+                <td>{{modal.hra}}</td>
+                <td>{{modal.da}}</td>
+                <td>{{modal.tax}}</td>
+                <td>{{modal.salary}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
