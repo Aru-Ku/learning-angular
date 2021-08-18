@@ -1,0 +1,169 @@
+<!-- basic + hra + da - tax(%) = salary -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        .field{
+            margin-bottom: 10px;
+        }
+        label{
+            display : block;
+        }
+        td{
+            font-size: 18pt;
+            padding-right: 10px;
+        }
+    </style>
+    <script src="jquery-3.6.0.js"></script>
+    <script>
+        //state & behavior
+        function SalaryCalculatorModel(){
+            //state
+            //this.basic = 0;
+            //this.hra = 0;
+
+            var _basic = 0;
+            this.onBasicChange = null;
+            this.getBasic = function(){
+                return _basic;
+            }
+            this.setBasic = function(value){
+                if (value === _basic) return;
+                _basic = value;
+                if (typeof this.onBasicChange === 'function')
+                    this.onBasicChange()
+            }
+
+            var _hra = 0, _da = 0, _tax = 0;
+            this.onHraChange = null;
+            this.onDaChange = null;
+            this.onTaxChange = null;
+
+            this.getHra = function(){ return _hra; }
+            this.getDa = function() { return _da; }
+            this.getTax = function(){ return _tax; }
+
+            this.setHra = function(value){
+                if (value === _hra) return;
+                _hra = value;
+                if (typeof this.onHraChange === 'function')
+                    this.onHraChange()
+            }
+            this.setDa = function(value){
+                if (value === _da) return;
+                _da = value;
+                if (typeof this.onDaChange === 'function')
+                    this.onDaChange()
+            }
+            this.setTax = function(value){
+                if (value === _tax) return;
+                _tax = value;
+                if (typeof this.onTaxChange === 'function')
+                    this.onTaxChange()
+            }
+
+            this.salary = 0;
+
+            this.onSalaryChange = null;
+        }
+        SalaryCalculatorModel.prototype.calculate = function(){
+            var gross = this.getBasic() + this.getHra() + this.getDa(),
+                net = gross * ((100-this.getTax())/100);
+            this.salary = net;
+            if (typeof this.onSalaryChange === 'function')
+                this.onSalaryChange()
+        };
+        
+        //View
+        $(function(){
+            window['model'] = new SalaryCalculatorModel();
+
+            $('#txtBasic').change(function(){
+                model.setBasic(parseInt($(this).val()));
+            });
+
+            $('#txtHra').change(function(){
+                model.setHra(parseInt($(this).val()));
+            });
+
+            $('#txtDa').change(function(){
+                model.setDa(parseInt($(this).val()));
+            });
+
+            $('#rangeTax').change(function(){
+                model.setTax(parseInt($(this).val()));
+            });
+
+            $('#btnCalculate').click(function(){
+                model.calculate();
+            });
+
+            model.onSalaryChange = function(){
+                $('#tdSalary').html(model.salary);
+            };
+
+            model.onBasicChange = function(){
+                $('#tdBasic').html(model.getBasic());
+            };
+
+            model.onHraChange = function(){
+                $('#tdHra').html(model.getHra());
+            };
+
+            model.onDaChange = function(){
+                $('#tdDa').html(model.getDa());
+            };
+
+            model.onTaxChange = function(){
+                $('#tdTax').html(model.getTax());
+            };
+            
+        });
+
+    </script>
+</head>
+<body>
+    <h1>Salary Calculator</h1>
+    <hr>
+    <div class="field">
+        <label for="">Basic :</label>
+        <input type="number" id="txtBasic">
+    </div>
+    <div class="field">
+        <label for="">HRA :</label>
+        <input type="number" id="txtHra">
+    </div>
+    <div class="field">
+        <label for="">DA :</label>
+        <input type="number" id="txtDa">
+    </div>
+    <div class="field">
+        <label for="">Tax :</label>
+        <input type="range" id="rangeTax" min="0" max="30" value="0">
+    </div>
+    <div class="field">
+        <input type="button" value="Calculate" id="btnCalculate">
+    </div>
+    <div class="field">
+        <table>
+            <tbody>
+                <tr>
+                    <td id="tdBasic">[basic]</td>
+                    <td id="tdHra">[hra]</td>
+                    <td id="tdDa">[da]</td>
+                    <td id="tdTax">[tax]</td>
+                    <td id="tdSalary">[salary]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

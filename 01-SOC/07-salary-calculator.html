@@ -1,0 +1,155 @@
+<!-- basic + hra + da - tax(%) = salary -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        .field{
+            margin-bottom: 10px;
+        }
+        label{
+            display : block;
+        }
+        td{
+            font-size: 18pt;
+            padding-right: 10px;
+        }
+    </style>
+    <script src="jquery-3.6.0.js"></script>
+    <script>
+        //state & behavior
+        function SalaryCalculatorModel(){
+            _data = {
+                basic : 0,
+                hra : 0,
+                da : 0,
+                tax : 0,
+                salary : 0
+            };
+
+            _subscribers = {
+                basic: [],
+                hra: [],
+                da: [],
+                tax: [],
+                salary: []
+            };
+
+            this.get = function(attrName){
+                return _data[attrName]
+            };
+
+            this.set = function(attrName, value){
+                if (_data[attrName] === value) return
+                _data[attrName] = value
+                var callbacks = _subscribers[attrName];
+                callbacks.forEach(function(callback){
+                    if (typeof callback === 'function')
+                        callback();
+                });
+            };
+
+            this.subscribe = function(attrName, callback){
+                _subscribers[attrName].push(callback);
+            };
+        }
+        SalaryCalculatorModel.prototype.calculate = function(){
+            var gross = this.get('basic') + this.get('hra') + this.get('da'),
+                net = gross * ((100-this.get('tax'))/100);
+            this.set('salary', net);
+        };
+
+        //View
+        $(function(){
+            window['model'] = new SalaryCalculatorModel();
+
+            //reacting to user actions
+            $('#txtBasic').change(function(){
+                model.set('basic', parseInt($(this).val()));
+            });
+
+            $('#txtHra').change(function(){
+                model.set('hra', parseInt($(this).val()));
+            });
+
+            $('#txtDa').change(function(){
+                model.set('da', parseInt($(this).val()));
+            });
+
+            $('#rangeTax').change(function(){
+                model.set('tax', parseInt($(this).val()));
+            });
+
+            $('#btnCalculate').click(function(){
+                model.calculate();
+            });
+
+            //reacting to model changes
+            model.subscribe('salary', function(){
+                $('#tdSalary').html(model.get('salary'));
+            });
+
+            model.subscribe('basic', function(){
+                $('#tdBasic').html(model.get('basic'));
+            });
+
+            model.subscribe('hra', function () {
+                $('#tdHra').html(model.get('hra'));
+            });
+
+            model.subscribe('da', function () {
+                $('#tdDa').html(model.get('da'));
+            });
+
+            model.subscribe('tax', function () {
+                $('#tdTax').html(model.get('tax'));
+            });
+            
+        });
+
+    </script>
+</head>
+<body>
+    <h1>Salary Calculator</h1>
+    <hr>
+    <div class="field">
+        <label for="">Basic :</label>
+        <input type="number" id="txtBasic">
+    </div>
+    <div class="field">
+        <label for="">HRA :</label>
+        <input type="number" id="txtHra">
+    </div>
+    <div class="field">
+        <label for="">DA :</label>
+        <input type="number" id="txtDa">
+    </div>
+    <div class="field">
+        <label for="">Tax :</label>
+        <input type="range" id="rangeTax" min="0" max="30" value="0">
+    </div>
+    <div class="field">
+        <input type="button" value="Calculate" id="btnCalculate">
+    </div>
+    <div class="field">
+        <table>
+            <tbody>
+                <tr>
+                    <td id="tdBasic">[basic]</td>
+                    <td id="tdHra">[hra]</td>
+                    <td id="tdDa">[da]</td>
+                    <td id="tdTax">[tax]</td>
+                    <td id="tdSalary">[salary]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
