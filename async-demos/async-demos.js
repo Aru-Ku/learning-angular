@@ -33,4 +33,25 @@
     }
 
     window['addAsyncClient'] = addAsyncClient;
+    
+    /* Promise */
+    function addPromise(x,y, callback) {
+        console.log(`   [@service] processing ${x} and ${y}`);
+        return new Promise((resolve, _) => {
+            setTimeout(function() {
+                var result = x+y;
+                console.log(`   [@service] returning the result`);
+                resolve(result)
+            }, 5000);
+        });
+    }
+
+    function addPromiseClient(x,y){
+        console.log(`[@client] triggering the service`);
+        addPromise(x,y).then(result => {
+            console.log(`[@client] result = ${result}`);
+        })
+    }
+
+    window['addPromiseClient'] = addPromiseClient;
 })();
