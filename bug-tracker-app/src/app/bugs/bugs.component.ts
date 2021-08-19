@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { Bug } from './models/bug';
 import { BugOperationService } from './services/bug-operations.service';
 
@@ -9,7 +10,8 @@ import { BugOperationService } from './services/bug-operations.service';
 })
 export class BugsComponent implements OnInit {
   bugs: Array<Bug> = [];
-  private currentBugId:number = 0;
+  sortAttr: string = 'id';
+  sortByDesc: boolean = false;
 
   constructor(private bugOps: BugOperationService) {
     this.bugs = this.bugOps.loadBugsFromLocalStorage();
@@ -19,7 +21,7 @@ export class BugsComponent implements OnInit {
   }
 
   newBugCreated(newBug: Bug) {
-    this.bugs = [ ...this.bugs, newBug ];
+    this.bugs = [ newBug, ...this.bugs ];
   }
 
   onBugNameClick(bugToToggle: Bug) {
@@ -38,5 +40,4 @@ export class BugsComponent implements OnInit {
       return !bug.isClosed
     });
   }
-
 }
