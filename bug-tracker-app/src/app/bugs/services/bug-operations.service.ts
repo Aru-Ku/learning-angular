@@ -1,5 +1,9 @@
+import { Injectable } from '@angular/core';
 import { Bug } from '../models/bug';
 
+@Injectable({
+	providedIn: 'root'
+})
 export class BugOperationService {
   private currentBugId: number = 0;
 	private storage : Storage = window.localStorage;
@@ -17,8 +21,9 @@ export class BugOperationService {
 	}
 	
 	toggleBugStatus(bugToToggle: Bug) {
-		bugToToggle.isClosed = !bugToToggle.isClosed;
-		this.storage.setItem(String(bugToToggle.id), JSON.stringify(bugToToggle));
+		const toggledBug = { ...bugToToggle, isClosed: !bugToToggle.isClosed };
+		this.storage.setItem(String(toggledBug.id), JSON.stringify(toggledBug));
+		return toggledBug;
 	}
 
 	removeBug(bugId: number) {
