@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component';
 import { BugsComponent } from './bugs/bugs.component';
 import { BugStatsComponent } from './bugs/components/bug-stats/bug-stats.component';
@@ -17,7 +17,7 @@ import { UtilsModule } from './utils/utils.module';
     ClosedCountNoPipe
   ],
   imports: [
-    BrowserModule, UtilsModule
+    BrowserModule, UtilsModule, HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
