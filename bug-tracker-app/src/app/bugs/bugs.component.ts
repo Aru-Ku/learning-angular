@@ -24,13 +24,14 @@ export class BugsComponent implements OnInit {
   }
 
   newBugCreated(newBug: Bug) {
-    console.log(newBug);
     this.bugs = [ newBug, ...this.bugs ];
   }
 
   onBugNameClick(bugToToggle: Bug) {
-    const newToggleBug = this.bugOps.toggle(bugToToggle);
-    this.bugs = this.bugs.map((bug: Bug) => bug.id === newToggleBug.id ? newToggleBug : bug )
+    this.bugOps.toggle(bugToToggle)
+    .subscribe((newBug: Bug) => {
+      this.bugs = this.bugs.map((bug: Bug) => bug.id === newBug.id ? newBug : bug )
+    });
   }
   
   onRemoveBug(bugToRemove: Bug) {

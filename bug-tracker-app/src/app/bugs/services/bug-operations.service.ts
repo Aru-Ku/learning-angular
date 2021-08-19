@@ -24,13 +24,12 @@ export class BugOperationService {
         return this.bugApi.save(newBug);
     }
 
-    toggle(bugToToggle : Bug) : Bug {
+    toggle(bugToToggle : Bug) : Observable<Bug> {
         const toggledBug = { ...bugToToggle, isClosed : !bugToToggle.isClosed };
-        this.bugStorage.save(toggledBug);
-        return toggledBug;
+        return this.bugApi.save(toggledBug);
     }
 
     remove(bugToRemove : Bug) : void {
-        this.bugStorage.remove(bugToRemove);
+        this.bugApi.delete(bugToRemove).subscribe(null)
     }
 }
