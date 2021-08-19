@@ -11,14 +11,16 @@ export class BugEditComponent implements OnInit {
   @Output()
   created: EventEmitter<Bug> = new EventEmitter<Bug>();
 
+  bugName: string = ''
+
   constructor(private bugOps: BugOperationService) { }
 
   ngOnInit(): void {
   }
 
-  onBtnAddNewBug(bugName: string) {
-    if(!bugName) return;
-    this.created.emit(this.bugOps.createNewBug(bugName));
+  onBtnAddNewBug() {
+    if(!this.bugName) return;
+    this.created.emit(this.bugOps.createNewBug(this.bugName));
   }
 
 }
