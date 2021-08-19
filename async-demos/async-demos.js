@@ -54,4 +54,12 @@
     }
 
     window['addPromiseClient'] = addPromiseClient;
+    
+    async function addAsyncAwaitClient(x,y){
+        console.log(`[@client] triggering the service`);
+        var result = await addPromise(x,y)
+        console.log(`[@client] result = ${result}`);
+    }
+    
+    window['addAsyncAwaitClient'] = addAsyncAwaitClient;
 })();
