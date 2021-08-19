@@ -1,32 +1,36 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Bug } from '../models/bug';
+import { BugApi } from './bug-api.services';
+import { BugStorageService } from './bug-storage.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class BugOperationService {
-  private currentBugId: number = 0;
-	private storage : Storage = window.localStorage;
+	constructor(private bugStorage: BugStorageService, private bugApi: BugApi,) { }
 
-	loadBugsFromLocalStorage(): Array<Bug> {
-		const allBugsIds : Array<string> =  Object.keys(this.storage);
-		this.currentBugId = allBugsIds.length === 0 ? 0 : Math.max( ...allBugsIds.map(id => +id) );
-		return allBugsIds.reduce((result, bugId) => ([ ...result, JSON.parse(this.storage.getItem(bugId)) ]), []);
-	}
+	getAll() : Observable<Bug[]> {
+        return this.bugApi.getAll();
+    }
 
-  createNewBug(newBugName: string): Bug {
-		const newBug = { id: ++this.currentBugId, name: newBugName, createdAt: new Date(), isClosed: false };
-		this.storage.setItem(String(newBug.id), JSON.stringify(newBug));
-    return newBug;
-	}
-	
-	toggleBugStatus(bugToToggle: Bug) {
-		const toggledBug = { ...bugToToggle, isClosed: !bugToToggle.isClosed };
-		this.storage.setItem(String(toggledBug.id), JSON.stringify(toggledBug));
-		return toggledBug;
-	}
+	createNew(newBugName:string) : Observable<Bug> {
+        const newBug = {
+            id : 0,
+            name : newBugName,
+            isClosed : false,
+            createdAt : new Date()
+        };
+        return this.bugApi.save(newBug);
+    }
 
-	removeBug(bugId: number) {
-		this.storage.removeItem(String(bugId));
-	}
+    toggle(bugToToggle : Bug) : Bug {
+        const toggledBug = { ...bugToToggle, isClosed : !bugToToggle.isClosed };
+        this.bugStorage.save(toggledBug);
+        return toggledBug;
+    }
+
+    remove(bugToRemove : Bug) : void {
+        this.bugStorage.remove(bugToRemove);
+    }
 }

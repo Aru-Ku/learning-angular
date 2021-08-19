@@ -20,7 +20,9 @@ export class BugEditComponent implements OnInit {
 
   onBtnAddNewBug() {
     if(!this.bugName) return;
-    this.created.emit(this.bugOps.createNewBug(this.bugName));
+    this.bugOps.createNew(this.bugName).subscribe(bug => {
+      this.created.emit(bug);
+    });
   }
 
 }

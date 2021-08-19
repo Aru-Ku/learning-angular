@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 import { Bug } from './models/bug';
 import { BugOperationService } from './services/bug-operations.service';
 
@@ -14,29 +15,32 @@ export class BugsComponent implements OnInit {
   sortByDesc: boolean = false;
 
   constructor(private bugOps: BugOperationService) {
-    this.bugs = this.bugOps.loadBugsFromLocalStorage();
   }
   
   ngOnInit(): void {
+    this.bugOps
+      .getAll()
+      .subscribe((bugs: Array<Bug>) => this.bugs = bugs);
   }
 
   newBugCreated(newBug: Bug) {
+    console.log(newBug);
     this.bugs = [ newBug, ...this.bugs ];
   }
 
   onBugNameClick(bugToToggle: Bug) {
-    const newToggleBug = this.bugOps.toggleBugStatus(bugToToggle);
+    const newToggleBug = this.bugOps.toggle(bugToToggle);
     this.bugs = this.bugs.map((bug: Bug) => bug.id === newToggleBug.id ? newToggleBug : bug )
   }
   
-  onRemoveBug(bugId: number) {
-    this.bugs = this.bugs.filter((bug: Bug) => bug.id !== bugId);
-    this.bugOps.removeBug(bugId);
+  onRemoveBug(bugToRemove: Bug) {
+    this.bugs = this.bugs.filter((bug: Bug) => bug.id !== bugToRemove.id);
+    this.bugOps.remove(bugToRemove);
   }
   
   onRemoveAllClosedBugs() {
     this.bugs = this.bugs.filter((bug: Bug) => {
-      if(bug.isClosed) this.bugOps.removeBug(bug.id);
+      if(bug.isClosed) this.bugOps.remove(bug);
       return !bug.isClosed
     });
   }

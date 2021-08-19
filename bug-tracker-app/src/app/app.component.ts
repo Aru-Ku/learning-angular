@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,10 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'Bug tracker App';
 
-  constructor(private http : HttpClient) { }
+  constructor() { }
 
   ngOnInit() {
-    this.http.get('http://localhost:3000/bugs')
-      .subscribe(bugs => console.table(bugs));
   }
 }
