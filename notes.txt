@@ -105,7 +105,14 @@ Building Blocks of Angular
 
     Directive
         - low level DOM manipulation logic
+            attribute directive
+                that manipulates the attributes of existing dom nodes
+                DOESNOT change the structure of the DOM tree (by adding / removing dom nodes)
+                used with [] notation
 
+            stuctural directive
+                change the structure of the DOM tree (by adding / removing dom nodes)
+                used with * prefix
     Pipe
         - Encapsulates transformation logic for presentation
 
@@ -134,3 +141,54 @@ TODO:
         - map
         - reduce
         - filter
+
+
+TO create a new component
+    ng generate component greeter
+    OR
+    ng g c greeter
+
+
+to install moment
+    npm install moment
+
+    to use moment
+    import * as moment from 'moment'
+    moment('2021-08-18T09:20:26.721Z').fromNow()
+
+
+Pure Function
+    - A function that does not have side effects
+    - A function whose invocation can be replaced with the result of the function without affecting the final outcome
+
+    Memoization
+        - A technique to cache the result of a function
+
+    
+Async Operations
+    - Callback (singular)
+    - Promises (singular)
+    - Async Await (singular)
+    - Observables (rxjs)
+        operators
+            - map
+            - filter
+            - reduce
+            - scan
+            - switchMap
+            - mergeMap
+
+
+
+Source of Events in the browser
+    - UI Events (Mouse, Keyboard) (plural)
+    - Timer events (plural)
+    - Websockets (plural)
+    - Server Sent Events (plural)
+    - AJAX (singlular)
+
+
+Create a projects module with the following funcationality
+    - Adding a new project (id, name)
+    - List the projects
+    - Inline editing & save of project name

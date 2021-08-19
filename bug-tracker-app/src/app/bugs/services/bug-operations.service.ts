@@ -8,7 +8,7 @@ import { BugStorageService } from './bug-storage.service';
 	providedIn: 'root'
 })
 export class BugOperationService {
-	constructor(private bugStorage: BugStorageService, private bugApi: BugApi,) { }
+	constructor(private bugApi: BugApi,) { }
 
 	getAll() : Observable<Bug[]> {
         return this.bugApi.getAll();
