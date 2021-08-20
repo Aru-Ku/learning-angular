@@ -65,4 +65,32 @@ fdescribe('GreeterComponent', () => {
     expect(fakeGreeterService.greet).toHaveBeenCalled();
     expect(actualMessage).toBe(expectedResult);
   });
+  
+  it('should display the inputted message to greet', () => {
+    var expectedResult = 'Hello, ArunKumar !!'
+
+    //setting the mock for the greet service
+    fakeGreeterService.greet.and.returnValue(expectedResult);
+
+    //setting value in the textbox
+    const txtUserName = debugElement.query(By.css('input[type="text"]')).nativeElement
+    txtUserName.value = 'ArunKumar';
+    txtUserName.dispatchEvent(new Event('input'));
+    
+    //locating the button and triggering the click event
+    const btnGreet = debugElement.query(By.css('input[type="button"][value="Greet"]')).nativeElement;
+    btnGreet.dispatchEvent(new Event("click"))
+
+    //force change detection so that the component state can be reflected in the UI
+    fixture.detectChanges();
+
+    //get the desired DOM node for assertion
+    const actualMessage = debugElement.query(By.css('p:nth-child(6)')).nativeElement.innerText;
+    //const actualMessage = component.greetMessage;
+
+    //perform the assertion
+    expect(fakeGreeterService.greet).toHaveBeenCalled();
+    expect(fakeGreeterService.greet).toHaveBeenCalledWith('ArunKumar');
+    expect(actualMessage).toBe(expectedResult);
+  });
 });
