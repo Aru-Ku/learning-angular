@@ -10,7 +10,7 @@
       "id": 2,
       "name": "Server communication failure",
       "createdAt": "2020-11-26T11:17:31.342Z",
-      "isClosed": false
+      "isClosed": true
     },
     {
       "id": 4,

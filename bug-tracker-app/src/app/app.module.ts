@@ -8,6 +8,18 @@ import { BugEditComponent } from './bugs/components/bug-edit/bug-edit.component'
 import { ClosedCountNoPipe } from './bugs/pipes/closed-count-no.pipe';
 import { UtilsModule } from './utils/utils.module';
 import { ProjectsComponent } from './projects/projects.component';
+import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './not-found.component';
+import { BugDetailsComponent } from './bugs/components/bug-details/bug-details.component';
+
+let routes : Routes = [
+  {path: '', redirectTo: '/bugs', pathMatch: 'full' },
+  {path : 'add', component : BugEditComponent},
+  {path : 'bugs', component : BugsComponent},
+  {path : 'details/:id', component : BugDetailsComponent},
+  {path : 'projects', component : ProjectsComponent},
+  {path : '**', component : NotFoundComponent},
+];
 
 @NgModule({
   declarations: [
@@ -16,10 +28,12 @@ import { ProjectsComponent } from './projects/projects.component';
     BugStatsComponent,
     BugEditComponent,
     ClosedCountNoPipe,
-    ProjectsComponent
+    ProjectsComponent,
+    BugDetailsComponent
   ],
   imports: [
-    BrowserModule, UtilsModule, HttpClientModule
+    BrowserModule, UtilsModule, HttpClientModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

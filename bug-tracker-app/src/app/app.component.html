@@ -1,4 +1,14 @@
 <h1>{{title}}</h1>
 <hr>
 <!-- <app-bugs></app-bugs> -->
-<app-projects></app-projects>
+<!-- <app-projects></app-projects> -->
+
+<div>
+    <a [routerLink]="['/bugs']">Bugs</a>
+    <br>
+    <a [routerLink]="['/projects']">Projects</a>
+</div>
+
+<hr>
+
+<router-outlet></router-outlet>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Bug } from '../../models/bug';
 import { BugOperationService } from '../../services/bug-operations.service';
 
@@ -13,7 +14,7 @@ export class BugEditComponent implements OnInit {
 
   bugName: string = ''
 
-  constructor(private bugOps: BugOperationService) { }
+  constructor(private bugOps: BugOperationService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -21,7 +22,8 @@ export class BugEditComponent implements OnInit {
   onBtnAddNewBug() {
     if(!this.bugName) return;
     this.bugOps.createNew(this.bugName).subscribe(bug => {
-      this.created.emit(bug);
+      // this.created.emit(bug);
+      this.router.navigate(['bugs'])
     });
   }
 
