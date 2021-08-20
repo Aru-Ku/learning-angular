@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Scheduler</title>
+    <script>
+        function doWork(progressCb){
+            var totalSubTasks = 1000,
+                currentSubTask = 0;
+
+            function subTask(){
+                for(var i=0; i < (1000/totalSubTasks); i++)
+                    for(var j=0; j < 1000; j++)
+                        for(var k=0; k < 30; k++){
+
+                        }
+                ++currentSubTask;
+                
+                if(currentSubTask < totalSubTasks){
+                    var progressStats = {
+                        state: 'progress',
+                        percentCompleted : (currentSubTask / totalSubTasks) * 100
+                    }
+                    setTimeout(progressCb, 0, progressStats);
+                    setTimeout(subTask);
+                } else {
+                    var progressStats = {
+                        state: 'complete',
+                        percentCompleted: 100
+                    }
+                    setTimeout(progressCb, 0, progressStats);
+                    console.log('Finished!');
+                }
+                
+            }
+            setTimeout(subTask)
+        }
+
+        function displayMessage(message) {
+            document.getElementById('divMessages').innerHTML += message + '<br>';
+        }
+
+        function onBtnDoWorkClick(){
+            displayMessage("Work Started");
+            doWork(onWorkProgress);
+        }
+
+        function onWorkProgress(progressStats){
+             document.getElementById('workProgress').value = progressStats.percentCompleted;
+             if (progressStats.state == 'complete') {
+                 displayMessage("Work Completed");
+             }
+        }
+
+        function init(){
+            var btnDoWork = document.getElementById('btnDoWork');
+            btnDoWork.addEventListener('click', onBtnDoWorkClick);
+        }
+        window.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</head>
+<body>
+    <h1>Scheduler</h1>
+    <hr>
+    <input type="text" name="" id="">
+    <input type="button" value="Do Work" id="btnDoWork">
+    <div id="divMessages"></div>
+    <div>
+        <progress id="workProgress" min="0" max="100"></progress>
+    </div>
+</body>
+</html>
