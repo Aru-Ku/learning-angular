@@ -11,13 +11,16 @@ import { ProjectsComponent } from './projects/projects.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found.component';
 import { BugDetailsComponent } from './bugs/components/bug-details/bug-details.component';
+import { LoginComponent } from './auth/login.component';
+import { LoggedInGuard } from './auth/logged-in.guard';
 
 let routes : Routes = [
   {path: '', redirectTo: '/bugs', pathMatch: 'full' },
-  {path : 'add', component : BugEditComponent},
-  {path : 'bugs', component : BugsComponent},
-  {path : 'details/:id', component : BugDetailsComponent},
-  {path : 'projects', component : ProjectsComponent},
+  {path : 'add', component : BugEditComponent, canActivate: [LoggedInGuard]},
+  {path : 'bugs', component : BugsComponent, canActivate: [LoggedInGuard]},
+  {path : 'details/:id', component : BugDetailsComponent, canActivate: [LoggedInGuard] },
+  {path : 'projects', component : ProjectsComponent, canActivate: [LoggedInGuard]},
+  {path : 'login', component : LoginComponent},
   {path : '**', component : NotFoundComponent},
 ];
 
