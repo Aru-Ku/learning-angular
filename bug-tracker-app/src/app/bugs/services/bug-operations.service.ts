@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Bug } from '../models/bug';
-import { BugApi } from './bug-api.services';
+import { BugApi } from './bug-api.service';
 import { BugStorageService } from './bug-storage.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class BugOperationService {
-	constructor(private bugApi: BugApi,) { }
+	constructor(private bugApi: BugApi) { }
 
 	getAll() : Observable<Bug[]> {
         return this.bugApi.getAll();

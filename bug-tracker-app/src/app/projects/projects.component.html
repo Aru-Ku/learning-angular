@@ -1,0 +1,21 @@
+<section>
+    <div>
+        <label for="project_name">Project Name : </label>
+        <input type="text" id="project_name" #txtProjectName>
+        <input type="button" value="Add Project" (click)="newProject(txtProjectName.value)">
+    </div>
+</section>
+<section class="list">
+    <ol>
+        <li *ngFor="let project of projects">
+            <ng-container *ngIf="project.id !== editingProjectId">
+                <span>{{project.name}}</span><input type="button" value="Edit" (click)="editProjectId(project.id)">
+            </ng-container>
+            <ng-container *ngIf="project.id === editingProjectId">
+                <input type="text" [value]="project.name" #newProjectText> <input type="button" value="Save" (click)="saveProjectNewName(newProjectText.value)">
+            </ng-container>
+            <br>
+            <input type="button" value="Remove" (click)="deleteProject(project)">
+        </li>
+    </ol>
+</section>

@@ -17,6 +17,7 @@ export class BugsComponent implements OnInit {
   constructor(private bugOps: BugOperationService) {
   }
   
+  
   ngOnInit(): void {
     this.bugOps
       .getAll()

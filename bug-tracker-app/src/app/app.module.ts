@@ -7,6 +7,7 @@ import { BugStatsComponent } from './bugs/components/bug-stats/bug-stats.compone
 import { BugEditComponent } from './bugs/components/bug-edit/bug-edit.component';
 import { ClosedCountNoPipe } from './bugs/pipes/closed-count-no.pipe';
 import { UtilsModule } from './utils/utils.module';
+import { ProjectsComponent } from './projects/projects.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { UtilsModule } from './utils/utils.module';
     BugsComponent,
     BugStatsComponent,
     BugEditComponent,
-    ClosedCountNoPipe
+    ClosedCountNoPipe,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule, UtilsModule, HttpClientModule
