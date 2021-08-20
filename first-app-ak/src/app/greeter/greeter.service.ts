@@ -6,7 +6,7 @@ import { ITimeService, TimeService } from "./time.service";
 })
 export class GreeterService{
 
-    constructor(private timeService : ITimeService){
+    constructor(private timeService : TimeService){
     }
 
     greet(userName : string) : string {
